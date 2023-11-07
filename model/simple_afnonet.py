@@ -222,7 +222,8 @@ class AFNONet(nn.Module):
         self.flow_act = nn.GELU()
         self.flow_head = nn.Linear(embed_dim, self.out_chans*self.patch_size[0]*self.patch_size[1]*2, bias=False)
 
-        self.grid = self.setup_grid()
+        grid = self.setup_grid()
+        self.register_buffer('grid', grid, persistent=False)
         
         trunc_normal_(self.pos_embed, std=.02)
         self.apply(self._init_weights)
